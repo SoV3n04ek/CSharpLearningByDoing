@@ -1,0 +1,41 @@
+# Visual Studio 2022 .gitignore
+# --------------------------------------------------------------------------
+# VS Solution/Project Files
+# --------------------------------------------------------------------------
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+*.log
+*.pdb
+*.suo
+*.user
+*.config.user
+
+# Visual Studio user-specific files
+*.user
+*.sln.docstates
+*.vshost.exe
+*.vshost.exe.config
+
+# Rider/JetBrains IDE
+.idea/
+
+# NuGet packages
+packages/
+# The 'obj' folder contains the package cache
+**/obj/
+
+# Package files
+*.nupkg
+*.snk
+
+# Node.js/npm for web projects (if applicable)
+node_modules/
+
+# Standard folders created by dotnet/VS
+**/.vs/
