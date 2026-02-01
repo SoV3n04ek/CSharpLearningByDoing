@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PracticeBoxingUnboxing", "P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncPracticeApp", "AsyncPracticeApp\AsyncPracticeApp.csproj", "{2C0E6993-9432-472B-906F-AAF230F5785F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncPracticeApp2", "AsyncPracticeApp2\AsyncPracticeApp2.csproj", "{5B4C0E63-C13A-4354-8EF6-94E9B6520DE4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{2C0E6993-9432-472B-906F-AAF230F5785F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C0E6993-9432-472B-906F-AAF230F5785F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C0E6993-9432-472B-906F-AAF230F5785F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B4C0E63-C13A-4354-8EF6-94E9B6520DE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B4C0E63-C13A-4354-8EF6-94E9B6520DE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B4C0E63-C13A-4354-8EF6-94E9B6520DE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B4C0E63-C13A-4354-8EF6-94E9B6520DE4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
