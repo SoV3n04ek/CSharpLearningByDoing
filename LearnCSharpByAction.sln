@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncPracticeApp", "AsyncPr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncPracticeApp2", "AsyncPracticeApp2\AsyncPracticeApp2.csproj", "{5B4C0E63-C13A-4354-8EF6-94E9B6520DE4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinqRecords.DataProcessor.Lab", "LinqRecords.DataProcessor.Lab\LinqRecords.DataProcessor.Lab.csproj", "{33CC3C71-1AD9-4178-8740-7844EF6A2724}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncParallel.DeepDive.Lab", "AsyncParallel.DeepDive.Lab\AsyncParallel.DeepDive.Lab.csproj", "{5DB9DE4F-F38F-42A1-BECC-8A5AF61BD6B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{5B4C0E63-C13A-4354-8EF6-94E9B6520DE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B4C0E63-C13A-4354-8EF6-94E9B6520DE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B4C0E63-C13A-4354-8EF6-94E9B6520DE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33CC3C71-1AD9-4178-8740-7844EF6A2724}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33CC3C71-1AD9-4178-8740-7844EF6A2724}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33CC3C71-1AD9-4178-8740-7844EF6A2724}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33CC3C71-1AD9-4178-8740-7844EF6A2724}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DB9DE4F-F38F-42A1-BECC-8A5AF61BD6B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DB9DE4F-F38F-42A1-BECC-8A5AF61BD6B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DB9DE4F-F38F-42A1-BECC-8A5AF61BD6B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DB9DE4F-F38F-42A1-BECC-8A5AF61BD6B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
