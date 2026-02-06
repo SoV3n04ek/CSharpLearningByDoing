@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncParallel.DeepDive.Lab"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resilient.WeatherService.Proxy", "Resilient.WeatherService.Proxy\Resilient.WeatherService.Proxy.csproj", "{D680BDDC-DEF9-42BA-A813-F785D0183023}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryOptimization.Lab", "MemoryOptimization.Lab\MemoryOptimization.Lab.csproj", "{409B340E-FC91-4CAC-AD77-6F95D80BC3AC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{D680BDDC-DEF9-42BA-A813-F785D0183023}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D680BDDC-DEF9-42BA-A813-F785D0183023}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D680BDDC-DEF9-42BA-A813-F785D0183023}.Release|Any CPU.Build.0 = Release|Any CPU
+		{409B340E-FC91-4CAC-AD77-6F95D80BC3AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{409B340E-FC91-4CAC-AD77-6F95D80BC3AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{409B340E-FC91-4CAC-AD77-6F95D80BC3AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{409B340E-FC91-4CAC-AD77-6F95D80BC3AC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
