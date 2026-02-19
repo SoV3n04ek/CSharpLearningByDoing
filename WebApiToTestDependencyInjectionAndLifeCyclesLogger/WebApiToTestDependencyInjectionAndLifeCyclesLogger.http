@@ -1,0 +1,6 @@
+@WebApiToTestDependencyInjectionAndLifeCyclesLogger_HostAddress = http://localhost:5088
+
+GET {{WebApiToTestDependencyInjectionAndLifeCyclesLogger_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
