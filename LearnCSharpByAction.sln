@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryOptimization.Lab", "M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HighLoad.MemoryCache.Simulator", "HighLoad.MemoryCache.Simulator\HighLoad.MemoryCache.Simulator.csproj", "{6C1A280D-5F96-42DA-8BF6-7FD01DB19AE8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiToTestDependencyInjectionAndLifeCyclesLogger", "WebApiToTestDependencyInjectionAndLifeCyclesLogger\WebApiToTestDependencyInjectionAndLifeCyclesLogger.csproj", "{941BF98F-14B8-47CA-B6B8-D2942C6883DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{6C1A280D-5F96-42DA-8BF6-7FD01DB19AE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C1A280D-5F96-42DA-8BF6-7FD01DB19AE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C1A280D-5F96-42DA-8BF6-7FD01DB19AE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{941BF98F-14B8-47CA-B6B8-D2942C6883DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{941BF98F-14B8-47CA-B6B8-D2942C6883DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{941BF98F-14B8-47CA-B6B8-D2942C6883DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{941BF98F-14B8-47CA-B6B8-D2942C6883DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
