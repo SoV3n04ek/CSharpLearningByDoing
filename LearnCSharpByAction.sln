@@ -27,6 +27,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiToTestDependencyInjec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrategyPatternPractice", "StrategyPatternPractice\StrategyPatternPractice.csproj", "{2609C0BF-350E-4915-B064-04EA039F66DD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TemplateMethodPatternPractice", "TemplateMethodPatternPractice\TemplateMethodPatternPractice.csproj", "{875E240F-6FB0-40B3-A688-C2502A67CFA8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncCloud.FileProcessor.Lab", "AsyncCloud.FileProcessor.Lab\AsyncCloud.FileProcessor.Lab.csproj", "{D27BFAB0-8823-4D2F-8F99-6392665F43D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +85,14 @@ Global
 		{2609C0BF-350E-4915-B064-04EA039F66DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2609C0BF-350E-4915-B064-04EA039F66DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2609C0BF-350E-4915-B064-04EA039F66DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{875E240F-6FB0-40B3-A688-C2502A67CFA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{875E240F-6FB0-40B3-A688-C2502A67CFA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{875E240F-6FB0-40B3-A688-C2502A67CFA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{875E240F-6FB0-40B3-A688-C2502A67CFA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D27BFAB0-8823-4D2F-8F99-6392665F43D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D27BFAB0-8823-4D2F-8F99-6392665F43D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D27BFAB0-8823-4D2F-8F99-6392665F43D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D27BFAB0-8823-4D2F-8F99-6392665F43D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
