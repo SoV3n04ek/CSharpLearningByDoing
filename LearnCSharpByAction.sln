@@ -3,33 +3,35 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36119.2
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PracticeOutAndRef", "PracticeOutAndRef\PracticeOutAndRef.csproj", "{7A4881CB-6AF9-4223-98DF-B5DA8C5BBD59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PracticeOutAndRef", "PracticeOutAndRef\PracticeOutAndRef.csproj", "{7A4881CB-6AF9-4223-98DF-B5DA8C5BBD59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThreadsPractice", "ThreadsPractice\ThreadsPractice.csproj", "{8E21F740-418B-42DC-9D49-8BCDDB2AD5B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThreadsPractice", "ThreadsPractice\ThreadsPractice.csproj", "{8E21F740-418B-42DC-9D49-8BCDDB2AD5B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PracticeBoxingUnboxing", "PracticeBoxingUnboxing\PracticeBoxingUnboxing.csproj", "{7181A704-D56D-4D74-A355-C77F3C8BFD94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PracticeBoxingUnboxing", "PracticeBoxingUnboxing\PracticeBoxingUnboxing.csproj", "{7181A704-D56D-4D74-A355-C77F3C8BFD94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncPracticeApp", "AsyncPracticeApp\AsyncPracticeApp.csproj", "{2C0E6993-9432-472B-906F-AAF230F5785F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsyncPracticeApp", "AsyncPracticeApp\AsyncPracticeApp.csproj", "{2C0E6993-9432-472B-906F-AAF230F5785F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncPracticeApp2", "AsyncPracticeApp2\AsyncPracticeApp2.csproj", "{5B4C0E63-C13A-4354-8EF6-94E9B6520DE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsyncPracticeApp2", "AsyncPracticeApp2\AsyncPracticeApp2.csproj", "{5B4C0E63-C13A-4354-8EF6-94E9B6520DE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinqRecords.DataProcessor.Lab", "LinqRecords.DataProcessor.Lab\LinqRecords.DataProcessor.Lab.csproj", "{33CC3C71-1AD9-4178-8740-7844EF6A2724}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqRecords.DataProcessor.Lab", "LinqRecords.DataProcessor.Lab\LinqRecords.DataProcessor.Lab.csproj", "{33CC3C71-1AD9-4178-8740-7844EF6A2724}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncParallel.DeepDive.Lab", "AsyncParallel.DeepDive.Lab\AsyncParallel.DeepDive.Lab.csproj", "{5DB9DE4F-F38F-42A1-BECC-8A5AF61BD6B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsyncParallel.DeepDive.Lab", "AsyncParallel.DeepDive.Lab\AsyncParallel.DeepDive.Lab.csproj", "{5DB9DE4F-F38F-42A1-BECC-8A5AF61BD6B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resilient.WeatherService.Proxy", "Resilient.WeatherService.Proxy\Resilient.WeatherService.Proxy.csproj", "{D680BDDC-DEF9-42BA-A813-F785D0183023}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Resilient.WeatherService.Proxy", "Resilient.WeatherService.Proxy\Resilient.WeatherService.Proxy.csproj", "{D680BDDC-DEF9-42BA-A813-F785D0183023}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryOptimization.Lab", "MemoryOptimization.Lab\MemoryOptimization.Lab.csproj", "{409B340E-FC91-4CAC-AD77-6F95D80BC3AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MemoryOptimization.Lab", "MemoryOptimization.Lab\MemoryOptimization.Lab.csproj", "{409B340E-FC91-4CAC-AD77-6F95D80BC3AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HighLoad.MemoryCache.Simulator", "HighLoad.MemoryCache.Simulator\HighLoad.MemoryCache.Simulator.csproj", "{6C1A280D-5F96-42DA-8BF6-7FD01DB19AE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HighLoad.MemoryCache.Simulator", "HighLoad.MemoryCache.Simulator\HighLoad.MemoryCache.Simulator.csproj", "{6C1A280D-5F96-42DA-8BF6-7FD01DB19AE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiToTestDependencyInjectionAndLifeCyclesLogger", "WebApiToTestDependencyInjectionAndLifeCyclesLogger\WebApiToTestDependencyInjectionAndLifeCyclesLogger.csproj", "{941BF98F-14B8-47CA-B6B8-D2942C6883DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiToTestDependencyInjectionAndLifeCyclesLogger", "WebApiToTestDependencyInjectionAndLifeCyclesLogger\WebApiToTestDependencyInjectionAndLifeCyclesLogger.csproj", "{941BF98F-14B8-47CA-B6B8-D2942C6883DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrategyPatternPractice", "StrategyPatternPractice\StrategyPatternPractice.csproj", "{2609C0BF-350E-4915-B064-04EA039F66DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StrategyPatternPractice", "StrategyPatternPractice\StrategyPatternPractice.csproj", "{2609C0BF-350E-4915-B064-04EA039F66DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TemplateMethodPatternPractice", "TemplateMethodPatternPractice\TemplateMethodPatternPractice.csproj", "{875E240F-6FB0-40B3-A688-C2502A67CFA8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemplateMethodPatternPractice", "TemplateMethodPatternPractice\TemplateMethodPatternPractice.csproj", "{875E240F-6FB0-40B3-A688-C2502A67CFA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncCloud.FileProcessor.Lab", "AsyncCloud.FileProcessor.Lab\AsyncCloud.FileProcessor.Lab.csproj", "{D27BFAB0-8823-4D2F-8F99-6392665F43D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsyncCloud.FileProcessor.Lab", "AsyncCloud.FileProcessor.Lab\AsyncCloud.FileProcessor.Lab.csproj", "{D27BFAB0-8823-4D2F-8F99-6392665F43D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryAndThreadFlow.Lab", "MemoryAndThreadFlow.Lab\MemoryAndThreadFlow.Lab.csproj", "{5C625CE0-EB57-4567-93CE-ECCFBA7681F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,6 +95,10 @@ Global
 		{D27BFAB0-8823-4D2F-8F99-6392665F43D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D27BFAB0-8823-4D2F-8F99-6392665F43D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D27BFAB0-8823-4D2F-8F99-6392665F43D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C625CE0-EB57-4567-93CE-ECCFBA7681F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C625CE0-EB57-4567-93CE-ECCFBA7681F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C625CE0-EB57-4567-93CE-ECCFBA7681F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C625CE0-EB57-4567-93CE-ECCFBA7681F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
