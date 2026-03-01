@@ -6,7 +6,7 @@ var app = builder.Build();
 
 app.MapGet("/publish", async () =>
 {
-    var factory = new ConnectionFactory()
+    RabbitMQ.Client.ConnectionFactory factory = new()
     {
         HostName = "localhost",
         Port = 5672,
@@ -14,28 +14,36 @@ app.MapGet("/publish", async () =>
         Password = "guest"
     };
 
-    using var connection = factory.CreateConnection();
-    using var channel = connection.CreateModel();
+    // using 'await using' for asynchronous disposal
+    await using var connection = await factory.CreateConnectionAsync();
+    await using var channel = await connection.CreateChannelAsync();
 
     var queueName = "hello-test-queue";
 
-    channel.QueueDeclare(
+    // Declare the queue 
+    await channel.QueueDeclareAsync(
         queue: queueName,
-        durable: false,
+        durable: false, // Survive RabbitMQ restart
         exclusive: false,
         autoDelete: false,
         arguments: null);
 
-    var message = "Hello RabbitMQ";
-    var body = Encoding.UTF8.GetBytes(message);
+    var message = $"Hello RabbitMQ at {DateTime.Now}";
+    byte[] messageBodyBytes = Encoding.UTF8.GetBytes(message);
 
-    channel.BasicPublish(
-        exchange: "",
+    CancellationToken cancellationToken = new();
+    var props = new BasicProperties();
+
+    // Publish message
+    await channel.BasicPublishAsync(
+        exchange: string.Empty, // using the default exchange 
         routingKey: queueName,
-        basicProperties: null,
-        body: body);
+        mandatory: true,
+        basicProperties: props,
+        body: messageBodyBytes,
+        cancellationToken: cancellationToken);
 
-    return "Message published successfully";
+    return Results.Ok(new { status= "Message published successfully", message });
 });
 
 app.Run();
