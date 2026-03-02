@@ -2,48 +2,77 @@ using RabbitMQ.Client;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Singleton Connection (The right way)
+builder.Services.AddSingleton<IConnection>(sp =>
+{
+    var factory = new ConnectionFactory { HostName = "localhost" };
+    return factory.CreateConnectionAsync().GetAwaiter().GetResult();
+});
+
 var app = builder.Build();
 
-app.MapGet("/publish", async () =>
+// Infrastructure setup (Run once at startup)
+await SetupRabbitMqInfrastructure(app.Services);
+
+app.MapGet("/publish", async (IConnection connection) =>
 {
-    RabbitMQ.Client.ConnectionFactory factory = new()
-    {
-        HostName = "localhost",
-        Port = 5672,
-        UserName = "guest",
-        Password = "guest"
-    };
+    // Create a channel just for this request (Channels are lightweight)
+    using var channel = await connection.CreateChannelAsync();
 
-    // using 'await using' for asynchronous disposal
-    await using var connection = await factory.CreateConnectionAsync();
-    await using var channel = await connection.CreateChannelAsync();
+    var message = $"Order Created at {DateTime.Now}";
+    var body = Encoding.UTF8.GetBytes(message);
 
-    var queueName = "hello-test-queue";
-
-    // Declare the queue 
-    await channel.QueueDeclareAsync(
-        queue: queueName,
-        durable: false, // Survive RabbitMQ restart
-        exclusive: false,
-        autoDelete: false,
-        arguments: null);
-
-    var message = $"Hello RabbitMQ at {DateTime.Now}";
-    byte[] messageBodyBytes = Encoding.UTF8.GetBytes(message);
-
-    CancellationToken cancellationToken = new();
-    var props = new BasicProperties();
-
-    // Publish message
+    // Publish (To the Topic Exchange, not the queue)
     await channel.BasicPublishAsync(
-        exchange: string.Empty, // using the default exchange 
-        routingKey: queueName,
-        mandatory: true,
-        basicProperties: props,
-        body: messageBodyBytes,
-        cancellationToken: cancellationToken);
+        exchange: "orders-exchange",
+        routingKey: "order.created.v1",
+        body: body);
 
-    return Results.Ok(new { status= "Message published successfully", message });
+    return Results.Ok(new { status = "Published to Topic", message });
 });
 
 app.Run();
+
+async Task SetupRabbitMqInfrastructure(IServiceProvider services)
+{
+    using var scope = services.CreateScope();
+    var connection = scope.ServiceProvider.GetRequiredService<IConnection>();
+    using var channel = await connection.CreateChannelAsync();
+
+    // 1. Define Names
+    const string ExchangeName = "orders-exchange";
+    const string QueueName = "hello-test-queue";
+    const string DlxExchange = "dlx-exchange";
+    const string DlxQueue = "dead-messages-queue";
+
+    // 2. Setup the "Hospital" (DLX)
+    // Direct exchange is fine here—we want to send bad messages to one specific place
+    await channel.ExchangeDeclareAsync(DlxExchange, ExchangeType.Direct, durable: true);
+    await channel.QueueDeclareAsync(DlxQueue, durable: true, exclusive: false, autoDelete: false);
+    await channel.QueueBindAsync(DlxQueue, DlxExchange, routingKey: "dead-letter");
+
+    // 3. Setup the Main Exchange
+    await channel.ExchangeDeclareAsync(ExchangeName, ExchangeType.Topic, durable: true);
+
+    // 4. Setup the Main Queue with DLX arguments
+    // NOTE: This will fail with 406 if "hello-test-queue" already exists as non-durable!
+    var queueArgs = new Dictionary<string, object?>
+    {
+        { "x-dead-letter-exchange", DlxExchange },
+        { "x-dead-letter-routing-key", "dead-letter" } // This matches the bind above
+    };
+
+    await channel.QueueDeclareAsync(
+        queue: QueueName,
+        durable: true,
+        exclusive: false,
+        autoDelete: false,
+        arguments: queueArgs);
+
+    // 5. Bind the Main Queue to the Exchange
+    // This tells RabbitMQ: "Send any message with a key starting with 'order.' here"
+    await channel.QueueBindAsync(QueueName, ExchangeName, routingKey: "order.#");
+
+    Console.WriteLine("Infrastructure Ready: Queues and Exchanges created.");
+}
