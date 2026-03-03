@@ -17,16 +17,20 @@ public class Worker(ILogger<Worker> logger) : BackgroundService
         };
 
         await using var connection = await factory.CreateConnectionAsync(stoppingToken);
-        await using var channel = await connection.CreateChannelAsync();
+        await using var channel = await connection.CreateChannelAsync(cancellationToken: stoppingToken);
 
         var queueName = "hello-test-queue";
 
         await channel.QueueDeclareAsync(
             queue: queueName,
-            durable: false,
+            durable: true, // rabbit mq writes the queue definition to the disk
             exclusive: false,
             autoDelete: false,
-            arguments: null,
+            arguments: new Dictionary<string, object?>
+            {
+                { "x-dead-letter-exchange", "dlx-exchange" },
+                { "x-dead-letter-routing-key", "dead-letter" }
+            },
             cancellationToken: stoppingToken);
 
         await channel.BasicQosAsync(
