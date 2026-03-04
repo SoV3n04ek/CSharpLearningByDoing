@@ -1,5 +1,7 @@
 using RabbitMQ.Client;
 using System.Text;
+using Order.Contracts;
+using Order.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,8 @@ builder.Services.AddSingleton<IConnection>(sp =>
     var factory = new ConnectionFactory { HostName = "localhost" };
     return factory.CreateConnectionAsync().GetAwaiter().GetResult();
 });
+
+builder.Services.AddSingleton<IMessagePublisher, RabbitMqPublisher>();
 
 var app = builder.Build();
 
@@ -30,6 +34,24 @@ app.MapGet("/publish", async (IConnection connection) =>
         body: body);
 
     return Results.Ok(new { status = "Published to Topic", message });
+});
+
+// The Clean Endpoint
+app.MapPost("/api/orders", async (OrderRequest request, IMessagePublisher publisher) =>
+{
+    // 1. Validation (Requirement 4A)
+    if (string.IsNullOrEmpty(request.CustomerId) || !request.Items.Any())
+        return Results.BadRequest("Invalid order data");
+
+    // 2. Create the Event
+    var orderId = Guid.NewGuid();
+    var orderEvent = new OrderCreated(orderId, request.CustomerId, DateTime.UtcNow);
+
+    // 3. Publish using the Abstraction
+    await publisher.PublishAsync(orderEvent, "order.created.v1");
+
+    // 4. Return 202 Accepted (Requirement 4A)
+    return Results.Accepted($"/api/orders/{orderId}", new { orderId, status = "Processing" });
 });
 
 app.Run();
