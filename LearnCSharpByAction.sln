@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 18
-VisualStudioVersion = 18.3.11520.95
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36930.0 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PracticeOutAndRef", "PracticeOutAndRef\PracticeOutAndRef.csproj", "{7A4881CB-6AF9-4223-98DF-B5DA8C5BBD59}"
 EndProject
@@ -41,6 +41,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решен
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Worker", "OrderProcessing.RabbitMqInPractice\Order.Worker\Order.Worker.csproj", "{F49E7CE1-5C94-D130-0C44-447211100495}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfCore.Optimization.Lab", "EfCore.Optimization.Lab\EfCore.Optimization.Lab.csproj", "{F80F81E5-A0AA-4477-A5D1-A1CE7BB49223}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -116,6 +118,10 @@ Global
 		{F49E7CE1-5C94-D130-0C44-447211100495}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F49E7CE1-5C94-D130-0C44-447211100495}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F49E7CE1-5C94-D130-0C44-447211100495}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F80F81E5-A0AA-4477-A5D1-A1CE7BB49223}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F80F81E5-A0AA-4477-A5D1-A1CE7BB49223}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F80F81E5-A0AA-4477-A5D1-A1CE7BB49223}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F80F81E5-A0AA-4477-A5D1-A1CE7BB49223}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
