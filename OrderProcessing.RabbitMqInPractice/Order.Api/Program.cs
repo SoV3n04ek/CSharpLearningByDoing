@@ -1,7 +1,7 @@
-using RabbitMQ.Client;
-using System.Text;
 using Order.Contracts;
 using Order.Infrastructure;
+using RabbitMQ.Client;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,7 +29,7 @@ app.MapGet("/publish", async (IConnection connection) =>
 
     // Publish (To the Topic Exchange, not the queue)
     await channel.BasicPublishAsync(
-        exchange: "orders-exchange",
+        exchange: RabbitMqConstants.ExchangeName,
         routingKey: "order.created.v1",
         body: body);
 
@@ -62,39 +62,61 @@ async Task SetupRabbitMqInfrastructure(IServiceProvider services)
     var connection = scope.ServiceProvider.GetRequiredService<IConnection>();
     using var channel = await connection.CreateChannelAsync();
 
-    // 1. Define Names
-    const string ExchangeName = "orders-exchange";
-    const string QueueName = "hello-test-queue";
-    const string DlxExchange = "dlx-exchange";
-    const string DlxQueue = "dead-messages-queue";
+    /* Development only */
+    try
+    {
+        await channel.ExchangeDeleteAsync(RabbitMqConstants.DlxExchange);
+        await channel.QueueDeleteAsync(RabbitMqConstants.DlxQueue);
+        await channel.ExchangeDeleteAsync(RabbitMqConstants.ExchangeName);
+        await channel.QueueDeleteAsync(RabbitMqConstants.QueueName);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"\t[Exception] | {ex.Message}");
+    }
 
-    // 2. Setup the "Hospital" (DLX)
-    // Direct exchange is fine here—we want to send bad messages to one specific place
-    await channel.ExchangeDeclareAsync(DlxExchange, ExchangeType.Direct, durable: true);
-    await channel.QueueDeclareAsync(DlxQueue, durable: true, exclusive: false, autoDelete: false);
-    await channel.QueueBindAsync(DlxQueue, DlxExchange, routingKey: "dead-letter");
+    // DLX Setup
+    await channel.ExchangeDeclareAsync(
+        RabbitMqConstants.DlxExchange,
+        ExchangeType.Direct,
+        durable: true);
+    
+    await channel.QueueDeclareAsync(
+        RabbitMqConstants.DlxQueue,
+        durable: true,
+        exclusive: false,
+        autoDelete: false);
 
-    // 3. Setup the Main Exchange
-    await channel.ExchangeDeclareAsync(ExchangeName, ExchangeType.Topic, durable: true);
+    await channel.QueueBindAsync(
+        RabbitMqConstants.DlxQueue,
+        RabbitMqConstants.DlxExchange,
+        RabbitMqConstants.DeadLetterRoutingKey);
 
-    // 4. Setup the Main Queue with DLX arguments
-    // NOTE: This will fail with 406 if "hello-test-queue" already exists as non-durable!
+    // Main exchange setup
+    await channel.ExchangeDeclareAsync(
+        RabbitMqConstants.ExchangeName,
+        ExchangeType.Topic,
+        durable: true);
+
+    // Main queue setup
     var queueArgs = new Dictionary<string, object?>
     {
-        { "x-dead-letter-exchange", DlxExchange },
-        { "x-dead-letter-routing-key", "dead-letter" } // This matches the bind above
+        { "x-dead-letter-exchange", RabbitMqConstants.DlxExchange },
+        { "x-dead-letter-routing-key", RabbitMqConstants.DeadLetterRoutingKey }
     };
 
+    // Durable true consistently
     await channel.QueueDeclareAsync(
-        queue: QueueName,
+        queue: RabbitMqConstants.QueueName,
         durable: true,
         exclusive: false,
         autoDelete: false,
         arguments: queueArgs);
 
-    // 5. Bind the Main Queue to the Exchange
-    // This tells RabbitMQ: "Send any message with a key starting with 'order.' here"
-    await channel.QueueBindAsync(QueueName, ExchangeName, routingKey: "order.#");
+    await channel.QueueBindAsync(
+        RabbitMqConstants.QueueName,
+        RabbitMqConstants.ExchangeName,
+        "order.#");
 
-    Console.WriteLine("Infrastructure Ready: Queues and Exchanges created.");
+    Console.WriteLine("\t\\\\\\Infrastructure ready!///");
 }
