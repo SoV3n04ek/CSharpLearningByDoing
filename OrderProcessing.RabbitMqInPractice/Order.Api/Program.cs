@@ -80,7 +80,7 @@ async Task SetupRabbitMqInfrastructure(IServiceProvider services)
         RabbitMqConstants.DlxExchange,
         ExchangeType.Direct,
         durable: true);
-    
+
     await channel.QueueDeclareAsync(
         RabbitMqConstants.DlxQueue,
         durable: true,
