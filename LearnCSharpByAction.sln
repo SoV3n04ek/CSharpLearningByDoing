@@ -46,6 +46,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfCore.Optimization.Lab", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Async.Throughput.Lab", "Async.Throughput.Lab\Async.Throughput.Lab.csproj", "{4452876D-77DF-4696-8F79-9C402E056B5B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BgService.Notifications.MockProject", "BgService.Notifications.MockProject\BgService.Notifications.MockProject.csproj", "{17360C5F-C2D1-4E09-9608-7355F7957681}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Delegates.Practice.Lab", "Delegates.Practice.Lab\Delegates.Practice.Lab.csproj", "{01C92401-F2F5-4C05-A2B2-7C5521539A95}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -128,6 +132,14 @@ Global
 		{4452876D-77DF-4696-8F79-9C402E056B5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4452876D-77DF-4696-8F79-9C402E056B5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4452876D-77DF-4696-8F79-9C402E056B5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17360C5F-C2D1-4E09-9608-7355F7957681}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17360C5F-C2D1-4E09-9608-7355F7957681}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17360C5F-C2D1-4E09-9608-7355F7957681}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17360C5F-C2D1-4E09-9608-7355F7957681}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01C92401-F2F5-4C05-A2B2-7C5521539A95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01C92401-F2F5-4C05-A2B2-7C5521539A95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01C92401-F2F5-4C05-A2B2-7C5521539A95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01C92401-F2F5-4C05-A2B2-7C5521539A95}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
