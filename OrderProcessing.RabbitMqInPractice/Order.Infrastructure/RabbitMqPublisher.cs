@@ -1,4 +1,9 @@
-﻿namespace Order.Infrastructure;
+﻿using Order.Contracts;
+using RabbitMQ.Client;
+using System.Text;
+using System.Text.Json;
+
+namespace Order.Infrastructure;
 
 public interface IMessagePublisher
 {
@@ -18,14 +23,15 @@ public class RabbitMqPublisher(IConnection connection) : IMessagePublisher
 
         // set persistence
         // this ensures the message is written to disk
-        var props = new BasicProperties { Persistent = true };
+            var props = new BasicProperties { Persistent = true };
 
         // publish to topic exchange
         await channel.BasicPublishAsync(
-            exchange: "orders-exchange",
+            exchange: RabbitMqConstants.ExchangeName,
             routingKey: routingKey,
             basicProperties: props,
-            body: body);
+            body: body,
+            mandatory: false);
     }
 
 }

@@ -48,6 +48,11 @@ public class Worker(ILogger<Worker> logger) : BackgroundService
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
 
+                if (Random.Shared.Next(0, 5) == 0)
+                {
+                    throw new Exception("Simulated failure");
+                }
+
                 logger.LogInformation(
                     "Received: {Message} at time {Time}",
                     message,
@@ -65,7 +70,7 @@ public class Worker(ILogger<Worker> logger) : BackgroundService
                 await channel.BasicNackAsync(
                     deliveryTag: ea.DeliveryTag,
                     multiple: false,
-                    requeue: true,
+                    requeue: false,
                     cancellationToken: stoppingToken);
             }
         };
