@@ -12,7 +12,7 @@ builder.Services.AddHostedService<Worker>();
 var app = builder.Build();
 
 app.MapPost("/signup", async (UserSignupTask task, BackgroundTaskQueue queue) =>
-{
+{   
     // Immediate DB Save (Logic here)
     // Push to background channel
     await queue.SignupChannel.Writer.WriteAsync(task);

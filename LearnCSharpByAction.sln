@@ -64,6 +64,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThreadingChannels.Backgroun
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackgroundHub.API.Threading.Lab", "BackgroundHub.API.Threading.Lab\BackgroundHub.API.Threading.Lab.csproj", "{ED26995D-521D-4AAD-B68E-2DCCAFF66864}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Events.Advanced.MemoryLab", "Events.Advanced.MemoryLab\Events.Advanced.MemoryLab.csproj", "{301C642B-D189-4BD4-A2AE-0260728AC2DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -182,6 +184,10 @@ Global
 		{ED26995D-521D-4AAD-B68E-2DCCAFF66864}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED26995D-521D-4AAD-B68E-2DCCAFF66864}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED26995D-521D-4AAD-B68E-2DCCAFF66864}.Release|Any CPU.Build.0 = Release|Any CPU
+		{301C642B-D189-4BD4-A2AE-0260728AC2DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{301C642B-D189-4BD4-A2AE-0260728AC2DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{301C642B-D189-4BD4-A2AE-0260728AC2DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{301C642B-D189-4BD4-A2AE-0260728AC2DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
