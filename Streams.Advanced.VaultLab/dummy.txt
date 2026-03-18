@@ -1,0 +1,2023 @@
+Skip to main contentSkip to in-page navigationSkip to Ask Learn chat experience
+Microsoft Build 2026
+June 2-3, 2026
+
+Learn
+Sign in
+.NET
+Version
+Search
+Search
+System.IO
+DriveType
+ErrorEventHandler
+FileAccess
+FileAttributes
+FileMode
+FileOptions
+FileShare
+FileSystemEventHandler
+HandleInheritability
+MatchCasing
+MatchType
+NotifyFilters
+RenamedEventHandler
+SearchOption
+SeekOrigin
+Stream
+Constructors
+UnixFileMode
+WatcherChangeTypes
+API browser
+Stream Class
+Definition
+Namespace:
+System.IO
+Assemblies:
+netstandard.dll, System.Runtime.dll
+Source:
+Stream.cs
+Provides a generic view of a sequence of bytes. This is an abstract class.
+
+C#
+public abstract class Stream : MarshalByRefObject, IAsyncDisposable, IDisposable
+Inheritance
+Object
+MarshalByRefObject
+Stream
+Derived
+Microsoft.Extensions.AI.HostedFileDownloadStream
+Microsoft.JScript.COMCharStream
+System.Data.OracleClient.OracleBFile
+System.Data.OracleClient.OracleLob
+System.Data.SqlTypes.SqlFileStream
+More…
+Implements
+IDisposable  IAsyncDisposable
+Examples
+The following example demonstrates how to use two FileStream objects to asynchronously copy the files from one directory to another directory. The FileStream class derives from the Stream class. Notice that the Click event handler for the Button control is marked with the async modifier because it calls an asynchronous method.
+
+C#
+using System;
+using System.Threading.Tasks;
+using System.Windows;
+using System.IO;
+
+namespace WpfApplication
+{
+    public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            string StartDirectory = @"c:\Users\exampleuser\start";
+            string EndDirectory = @"c:\Users\exampleuser\end";
+
+            foreach (string filename in Directory.EnumerateFiles(StartDirectory))
+            {
+                using (FileStream SourceStream = File.Open(filename, FileMode.Open))
+                {
+                    using (FileStream DestinationStream = File.Create(EndDirectory + filename.Substring(filename.LastIndexOf('\\'))))
+                    {
+                        await SourceStream.CopyToAsync(DestinationStream);
+                    }
+                }
+            }
+        }
+    }
+}
+Remarks
+Stream is the abstract base class of all streams. A stream is an abstraction of a sequence of bytes, such as a file, an input/output device, an inter-process communication pipe, or a TCP/IP socket. The Stream class and its derived classes provide a generic view of these different types of input and output, and isolate the programmer from the specific details of the operating system and the underlying devices.
+
+Streams involve three fundamental operations:
+
+You can read from streams. Reading is the transfer of data from a stream into a data structure, such as an array of bytes.
+
+You can write to streams. Writing is the transfer of data from a data structure into a stream.
+
+Streams can support seeking. Seeking refers to querying and modifying the current position within a stream. Seek capability depends on the kind of backing store a stream has. For example, network streams have no unified concept of a current position, and therefore typically do not support seeking.
+
+Some of the more commonly used streams that inherit from Stream are FileStream, and MemoryStream.
+
+Depending on the underlying data source or repository, streams might support only some of these capabilities. You can query a stream for its capabilities by using the CanRead, CanWrite, and CanSeek properties of the Stream class.
+
+The Read and Write methods read and write data in a variety of formats. For streams that support seeking, use the Seek and SetLength methods and the Position and Length properties to query and modify the current position and length of a stream.
+
+This type implements the IDisposable interface. When you have finished using the type, you should dispose of it either directly or indirectly. To dispose of the type directly, call its Dispose method in a try/catch block. To dispose of it indirectly, use a language construct such as using (in C#) or Using (in Visual Basic). For more information, see the "Using an Object that Implements IDisposable" section in the IDisposable interface topic.
+
+Disposing a Stream object flushes any buffered data, and essentially calls the Flush method for you. Dispose also releases operating system resources such as file handles, network connections, or memory used for any internal buffering. The BufferedStream class provides the capability of wrapping a buffered stream around another stream in order to improve read and write performance.
+
+Starting with the .NET Framework 4.5, the Stream class includes async methods to simplify asynchronous operations. An async method contains Async in its name, such as ReadAsync, WriteAsync, CopyToAsync, and FlushAsync. These methods enable you to perform resource-intensive I/O operations without blocking the main thread. This performance consideration is particularly important in a Windows 8.x Store app or desktop app where a time-consuming stream operation can block the UI thread and make your app appear as if it is not working. The async methods are used in conjunction with the async and await keywords in Visual Basic and C#.
+
+When used in a Windows 8.x Store app, Stream includes two extension methods: AsInputStream and AsOutputStream. These methods convert a Stream object to a stream in the Windows Runtime. You can also convert a stream in the Windows Runtime to a Stream object by using the AsStreamForRead and AsStreamForWrite methods. For more information, see How to: Convert Between .NET Framework Streams and Windows Runtime Streams
+
+Some stream implementations perform local buffering of the underlying data to improve performance. For such streams, you can use the Flush or FlushAsync method to clear any internal buffers and ensure that all data has been written to the underlying data source or repository.
+
+If you need a stream with no backing store (also known as a bit bucket), use the Null field to retrieve an instance of a stream that is designed for this purpose.
+
+Notes to Implementers
+When you implement a derived class of Stream, you must provide implementations for the Read(Byte[], Int32, Int32) and Write(Byte[], Int32, Int32) methods. The asynchronous methods ReadAsync(Byte[], Int32, Int32), WriteAsync(Byte[], Int32, Int32), and CopyToAsync(Stream) use the synchronous methods Read(Byte[], Int32, Int32) and Write(Byte[], Int32, Int32) in their implementations. Therefore, your implementations of Read(Byte[], Int32, Int32) and Write(Byte[], Int32, Int32) will work correctly with the asynchronous methods. The default implementations of ReadByte() and WriteByte(Byte) create a new single-element byte array, and then call your implementations of Read(Byte[], Int32, Int32) and Write(Byte[], Int32, Int32). When you derive from Stream, we recommend that you override these methods to access your internal buffer, if you have one, for substantially better performance. You must also provide implementations of CanRead, CanSeek, CanWrite, Flush(), Length, Position, Seek(Int64, SeekOrigin), and SetLength(Int64).
+
+Do not override the Close() method, instead, put all the Stream cleanup logic in the Dispose(Boolean) method. For more information, see Implementing a Dispose Method.
+
+Constructors
+Name	Description
+Stream()	
+Initializes a new instance of the Stream class.
+
+Fields
+Name	Description
+Null	
+A Stream with no backing store.
+
+Properties
+Name	Description
+CanRead	
+When overridden in a derived class, gets a value indicating whether the current stream supports reading.
+
+CanSeek	
+When overridden in a derived class, gets a value indicating whether the current stream supports seeking.
+
+CanTimeout	
+Gets a value that determines whether the current stream can time out.
+
+CanWrite	
+When overridden in a derived class, gets a value indicating whether the current stream supports writing.
+
+Length	
+When overridden in a derived class, gets the length in bytes of the stream.
+
+Position	
+When overridden in a derived class, gets or sets the position within the current stream.
+
+ReadTimeout	
+Gets or sets a value, in milliseconds, that determines how long the stream will attempt to read before timing out.
+
+WriteTimeout	
+Gets or sets a value, in milliseconds, that determines how long the stream will attempt to write before timing out.
+
+Methods
+Name	Description
+BeginRead(Byte[], Int32, Int32, AsyncCallback, Object)	
+Begins an asynchronous read operation. (Consider using ReadAsync(Byte[], Int32, Int32) instead.)
+
+BeginWrite(Byte[], Int32, Int32, AsyncCallback, Object)	
+Begins an asynchronous write operation. (Consider using WriteAsync(Byte[], Int32, Int32) instead.)
+
+Close()	
+Closes the current stream and releases any resources (such as sockets and file handles) associated with the current stream. Instead of calling this method, ensure that the stream is properly disposed.
+
+CopyTo(Stream, Int32)	
+Reads the bytes from the current stream and writes them to another stream, using a specified buffer size. Both streams positions are advanced by the number of bytes copied.
+
+CopyTo(Stream)	
+Reads the bytes from the current stream and writes them to another stream. Both streams positions are advanced by the number of bytes copied.
+
+CopyToAsync(Stream, CancellationToken)	
+Asynchronously reads the bytes from the current stream and writes them to another stream, using a specified cancellation token. Both streams positions are advanced by the number of bytes copied.
+
+CopyToAsync(Stream, Int32, CancellationToken)	
+Asynchronously reads the bytes from the current stream and writes them to another stream, using a specified buffer size and cancellation token. Both streams positions are advanced by the number of bytes copied.
+
+CopyToAsync(Stream, Int32)	
+Asynchronously reads the bytes from the current stream and writes them to another stream, using a specified buffer size. Both streams positions are advanced by the number of bytes copied.
+
+CopyToAsync(Stream)	
+Asynchronously reads the bytes from the current stream and writes them to another stream. Both streams positions are advanced by the number of bytes copied.
+
+CreateWaitHandle()	
+Obsolete.
+Allocates a WaitHandle object.
+
+Dispose()	
+Releases all resources used by the Stream.
+
+Dispose(Boolean)	
+Releases the unmanaged resources used by the Stream and optionally releases the managed resources.
+
+DisposeAsync()	
+Asynchronously releases the unmanaged resources used by the Stream.
+
+EndRead(IAsyncResult)	
+Waits for the pending asynchronous read to complete. (Consider using ReadAsync(Byte[], Int32, Int32) instead.)
+
+EndWrite(IAsyncResult)	
+Ends an asynchronous write operation. (Consider using WriteAsync(Byte[], Int32, Int32) instead.)
+
+Equals(Object)	
+Determines whether the specified object is equal to the current object.
+
+(Inherited from Object)
+Flush()	
+When overridden in a derived class, clears all buffers for this stream and causes any buffered data to be written to the underlying device.
+
+FlushAsync()	
+Asynchronously clears all buffers for this stream and causes any buffered data to be written to the underlying device.
+
+FlushAsync(CancellationToken)	
+Asynchronously clears all buffers for this stream, causes any buffered data to be written to the underlying device, and monitors cancellation requests.
+
+GetHashCode()	
+Serves as the default hash function.
+
+(Inherited from Object)
+GetLifetimeService()	
+Obsolete.
+Retrieves the current lifetime service object that controls the lifetime policy for this instance.
+
+(Inherited from MarshalByRefObject)
+GetType()	
+Gets the Type of the current instance.
+
+(Inherited from Object)
+InitializeLifetimeService()	
+Obsolete.
+Obtains a lifetime service object to control the lifetime policy for this instance.
+
+(Inherited from MarshalByRefObject)
+MemberwiseClone()	
+Creates a shallow copy of the current Object.
+
+(Inherited from Object)
+MemberwiseClone(Boolean)	
+Creates a shallow copy of the current MarshalByRefObject object.
+
+(Inherited from MarshalByRefObject)
+ObjectInvariant()	
+Obsolete.
+Provides support for a Contract.
+
+Read(Byte[], Int32, Int32)	
+When overridden in a derived class, reads a sequence of bytes from the current stream and advances the position within the stream by the number of bytes read.
+
+Read(Span<Byte>)	
+When overridden in a derived class, reads a sequence of bytes from the current stream and advances the position within the stream by the number of bytes read.
+
+ReadAsync(Byte[], Int32, Int32, CancellationToken)	
+Asynchronously reads a sequence of bytes from the current stream, advances the position within the stream by the number of bytes read, and monitors cancellation requests.
+
+ReadAsync(Byte[], Int32, Int32)	
+Asynchronously reads a sequence of bytes from the current stream and advances the position within the stream by the number of bytes read.
+
+ReadAsync(Memory<Byte>, CancellationToken)	
+Asynchronously reads a sequence of bytes from the current stream, advances the position within the stream by the number of bytes read, and monitors cancellation requests.
+
+ReadAtLeast(Span<Byte>, Int32, Boolean)	
+Reads at least a minimum number of bytes from the current stream and advances the position within the stream by the number of bytes read.
+
+ReadAtLeastAsync(Memory<Byte>, Int32, Boolean, CancellationToken)	
+Asynchronously reads at least a minimum number of bytes from the current stream, advances the position within the stream by the number of bytes read, and monitors cancellation requests.
+
+ReadByte()	
+Reads a byte from the stream and advances the position within the stream by one byte, or returns -1 if at the end of the stream.
+
+ReadExactly(Byte[], Int32, Int32)	
+Reads count number of bytes from the current stream and advances the position within the stream.
+
+ReadExactly(Span<Byte>)	
+Reads bytes from the current stream and advances the position within the stream until the buffer is filled.
+
+ReadExactlyAsync(Byte[], Int32, Int32, CancellationToken)	
+Asynchronously reads count number of bytes from the current stream, advances the position within the stream, and monitors cancellation requests.
+
+ReadExactlyAsync(Memory<Byte>, CancellationToken)	
+Asynchronously reads bytes from the current stream, advances the position within the stream until the buffer is filled, and monitors cancellation requests.
+
+Seek(Int64, SeekOrigin)	
+When overridden in a derived class, sets the position within the current stream.
+
+SetLength(Int64)	
+When overridden in a derived class, sets the length of the current stream.
+
+Synchronized(Stream)	
+Creates a thread-safe (synchronized) wrapper around the specified Stream object.
+
+ToString()	
+Returns a string that represents the current object.
+
+(Inherited from Object)
+ValidateBufferArguments(Byte[], Int32, Int32)	
+Validates arguments provided to reading and writing methods on Stream.
+
+ValidateCopyToArguments(Stream, Int32)	
+Validates arguments provided to the CopyTo(Stream, Int32) or CopyToAsync(Stream, Int32, CancellationToken) methods.
+
+Write(Byte[], Int32, Int32)	
+When overridden in a derived class, writes a sequence of bytes to the current stream and advances the current position within this stream by the number of bytes written.
+
+Write(ReadOnlySpan<Byte>)	
+When overridden in a derived class, writes a sequence of bytes to the current stream and advances the current position within this stream by the number of bytes written.
+
+WriteAsync(Byte[], Int32, Int32, CancellationToken)	
+Asynchronously writes a sequence of bytes to the current stream, advances the current position within this stream by the number of bytes written, and monitors cancellation requests.
+
+WriteAsync(Byte[], Int32, Int32)	
+Asynchronously writes a sequence of bytes to the current stream and advances the current position within this stream by the number of bytes written.
+
+WriteAsync(ReadOnlyMemory<Byte>, CancellationToken)	
+Asynchronously writes a sequence of bytes to the current stream, advances the current position within this stream by the number of bytes written, and monitors cancellation requests.
+
+WriteByte(Byte)	
+Writes a byte to the current position in the stream and advances the position within the stream by one byte.
+
+Extension Methods
+Name	Description
+ConfigureAwait(IAsyncDisposable, Boolean)	
+Configures how awaits on the tasks returned from an async disposable will be performed.
+
+CopyToAsync(Stream, PipeWriter, CancellationToken)	
+Asynchronously reads the bytes from the Stream and writes them to the specified PipeWriter, using a cancellation token.
+
+Applies to
+Product	Versions
+.NET	Core 1.0, Core 1.1, Core 2.0, Core 2.1, Core 2.2, Core 3.0, Core 3.1, 5, 6, 7, 8, 9, 10, 11
+.NET Framework	1.1, 2.0, 3.0, 3.5, 4.0, 4.5, 4.5.1, 4.5.2, 4.6, 4.6.1, 4.6.2, 4.7, 4.7.1, 4.7.2, 4.8, 4.8.1
+.NET Standard	1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 2.0, 2.1
+UWP	10.0
+See also
+FileStream
+MemoryStream
+BufferedStream
+File and Stream I/O
+How to: Convert Between .NET Framework Streams and Windows Runtime Streams
+ Collaborate with us on GitHub
+The source for this content can be found on GitHub, where you can also create and review issues and pull requests. For more information, see our contributor guide.
+
+.NET feedback
+
+.NET is an open source project. Select a link to provide feedback:
+
+ Open a documentation issue
+ Provide product feedback
+In this article
+Definition
+Examples
+Remarks
+Notes to Implementers
+Constructors
+Fields
+Properties
+Methods
+Extension Methods
+Show 2 more
+Was this page helpful?
+
+Manage cookies
+AI Disclaimer
+Previous Versions
+Blog
+Contribute
+Privacy
+Consumer Health Privacy
+Terms of Use
+Trademarks
+© Microsoft 2026
+Skip to main contentSkip to in-page navigationSkip to Ask Learn chat experience
+Microsoft Build 2026
+June 2-3, 2026
+
+Learn
+Sign in
+.NET
+Version
+Search
+Search
+System.IO
+DriveType
+ErrorEventHandler
+FileAccess
+FileAttributes
+FileMode
+FileOptions
+FileShare
+FileSystemEventHandler
+HandleInheritability
+MatchCasing
+MatchType
+NotifyFilters
+RenamedEventHandler
+SearchOption
+SeekOrigin
+Stream
+Constructors
+UnixFileMode
+WatcherChangeTypes
+API browser
+Stream Constructor
+Definition
+Namespace:
+System.IO
+Assemblies:
+netstandard.dll, System.Runtime.dll
+Source:
+Stream.cs
+Initializes a new instance of the Stream class.
+
+C#
+protected Stream();
+Remarks
+Stream is the abstract base class of all streams.
+
+Some of the more commonly used streams that inherit from Stream are FileStream, and MemoryStream.
+
+Applies to
+Product	Versions
+.NET	Core 1.0, Core 1.1, Core 2.0, Core 2.1, Core 2.2, Core 3.0, Core 3.1, 5, 6, 7, 8, 9, 10, 11
+.NET Framework	1.1, 2.0, 3.0, 3.5, 4.0, 4.5, 4.5.1, 4.5.2, 4.6, 4.6.1, 4.6.2, 4.7, 4.7.1, 4.7.2, 4.8, 4.8.1
+.NET Standard	1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 2.0, 2.1
+UWP	10.0
+ Collaborate with us on GitHub
+The source for this content can be found on GitHub, where you can also create and review issues and pull requests. For more information, see our contributor guide.
+
+.NET feedback
+
+.NET is an open source project. Select a link to provide feedback:
+
+ Open a documentation issue
+ Provide product feedback
+In this article
+Definition
+Remarks
+Applies to
+Was this page helpful?
+
+Manage cookies
+AI Disclaimer
+Previous Versions
+Blog
+Contribute
+Privacy
+Consumer Health Privacy
+Terms of Use
+Trademarks
+© Microsoft 2026Skip to main contentSkip to in-page navigationSkip to Ask Learn chat experience
+Microsoft Build 2026
+June 2-3, 2026
+
+Learn
+Sign in
+.NET
+Version
+Search
+Search
+System.IO
+DriveType
+ErrorEventHandler
+FileAccess
+FileAttributes
+FileMode
+FileOptions
+FileShare
+FileSystemEventHandler
+HandleInheritability
+MatchCasing
+MatchType
+NotifyFilters
+RenamedEventHandler
+SearchOption
+SeekOrigin
+Stream
+Constructors
+Null
+UnixFileMode
+WatcherChangeTypes
+API browser
+Stream.Null Field
+Definition
+Namespace:
+System.IO
+Assemblies:
+netstandard.dll, System.Runtime.dll
+Source:
+Stream.cs
+A Stream with no backing store.
+
+C#
+public static readonly System.IO.Stream Null;
+Field Value
+Stream
+Remarks
+Use Null to redirect output to a stream that will not consume any operating system resources. When the methods of Stream that provide writing are invoked on Null, the call simply returns, and no data is written. Null also implements a Read method that returns zero without reading data.
+
+Applies to
+Product	Versions
+.NET	Core 1.0, Core 1.1, Core 2.0, Core 2.1, Core 2.2, Core 3.0, Core 3.1, 5, 6, 7, 8, 9, 10, 11
+.NET Framework	1.1, 2.0, 3.0, 3.5, 4.0, 4.5, 4.5.1, 4.5.2, 4.6, 4.6.1, 4.6.2, 4.7, 4.7.1, 4.7.2, 4.8, 4.8.1
+.NET Standard	1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 2.0, 2.1
+UWP	10.0
+See also
+File and Stream I/O
+How to: Read Text from a File
+How to: Write Text to a File
+ Collaborate with us on GitHub
+The source for this content can be found on GitHub, where you can also create and review issues and pull requests. For more information, see our contributor guide.
+
+.NET feedback
+
+.NET is an open source project. Select a link to provide feedback:
+
+ Open a documentation issue
+ Provide product feedback
+In this article
+Definition
+Remarks
+Applies to
+See also
+Was this page helpful?
+
+Manage cookies
+AI Disclaimer
+Previous Versions
+Blog
+Contribute
+Privacy
+Consumer Health Privacy
+Terms of Use
+Trademarks
+© Microsoft 2026
+Skip to main contentSkip to in-page navigationSkip to Ask Learn chat experience
+Microsoft Build 2026
+June 2-3, 2026
+
+Learn
+Sign in
+.NET
+Version
+Search
+Search
+System.IO
+DriveType
+ErrorEventHandler
+FileAccess
+FileAttributes
+FileMode
+FileOptions
+FileShare
+FileSystemEventHandler
+HandleInheritability
+MatchCasing
+MatchType
+NotifyFilters
+RenamedEventHandler
+SearchOption
+SeekOrigin
+StreamWriter
+Constructors
+UnixFileMode
+WatcherChangeTypes
+API browser
+StreamWriter Class
+Definition
+Namespace:
+System.IO
+Assemblies:
+netstandard.dll, System.Runtime.dll
+Source:
+StreamWriter.cs
+Implements a TextWriter for writing characters to a stream in a particular encoding.
+
+C#
+public class StreamWriter : System.IO.TextWriter
+Inheritance
+Object
+MarshalByRefObject
+TextWriter
+StreamWriter
+Examples
+The following example shows how to use a StreamWriter object to write a file that lists the directories on the C drive, and then uses a StreamReader object to read and display each directory name. A good practice is to use these objects in a using statement so that the unmanaged resources are correctly disposed. The using statement automatically calls Dispose on the object when the code that is using it has completed. The constructor used in this example is not supported for use in Windows Store Apps.
+
+C#
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+
+namespace StreamReadWrite
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Get the directories currently on the C drive.
+            DirectoryInfo[] cDirs = new DirectoryInfo(@"c:\").GetDirectories();
+
+            // Write each directory name to a file.
+            using (StreamWriter sw = new StreamWriter("CDriveDirs.txt"))
+            {
+                foreach (DirectoryInfo dir in cDirs)
+                {
+                    sw.WriteLine(dir.Name);
+                }
+            }
+
+            // Read and show each line from the file.
+            string line = "";
+            using (StreamReader sr = new StreamReader("CDriveDirs.txt"))
+            {
+                while ((line = sr.ReadLine()) != null)
+                {
+                    Console.WriteLine(line);
+                }
+            }
+        }
+    }
+}
+Remarks
+StreamWriter is designed for character output in a particular encoding, whereas classes derived from Stream are designed for byte input and output.
+
+ Important
+
+This type implements the IDisposable interface. When you have finished using the type, you should dispose of it either directly or indirectly. To dispose of the type directly, call its Dispose method in a try/catch block. To dispose of it indirectly, use a language construct such as using (in C#) or Using (in Visual Basic). For more information, see the "Using an Object that Implements IDisposable" section in the IDisposable interface topic.
+
+StreamWriter defaults to using an instance of UTF8Encoding unless specified otherwise. This instance of UTF8Encoding is constructed without a byte order mark (BOM), so its GetPreamble method returns an empty byte array. The default UTF-8 encoding for this constructor throws an exception on invalid bytes. This behavior is different from the behavior provided by the encoding object in the Encoding.UTF8 property. To specify a BOM and determine whether an exception is thrown on invalid bytes, use a constructor that accepts an encoding object as a parameter, such as StreamWriter(String, Boolean, Encoding) or StreamWriter.
+
+By default, a StreamWriter is not thread safe. See TextWriter.Synchronized for a thread-safe wrapper.
+
+For a list of common I/O tasks, see Common I/O Tasks.
+
+Constructors
+Name	Description
+StreamWriter(Stream, Encoding, Int32, Boolean)	
+Initializes a new instance of the StreamWriter class for the specified stream by using the specified encoding and buffer size, and optionally leaves the stream open.
+
+StreamWriter(Stream, Encoding, Int32)	
+Initializes a new instance of the StreamWriter class for the specified stream by using the specified encoding and buffer size.
+
+StreamWriter(Stream, Encoding)	
+Initializes a new instance of the StreamWriter class for the specified stream by using the specified encoding and the default buffer size.
+
+StreamWriter(Stream)	
+Initializes a new instance of the StreamWriter class for the specified stream by using UTF-8 encoding and the default buffer size.
+
+StreamWriter(String, Boolean, Encoding, Int32)	
+Initializes a new instance of the StreamWriter class for the specified file on the specified path, using the specified encoding and buffer size. If the file exists, it can be either overwritten or appended to. If the file does not exist, this constructor creates a new file.
+
+StreamWriter(String, Boolean, Encoding)	
+Initializes a new instance of the StreamWriter class for the specified file by using the specified encoding and default buffer size. If the file exists, it can be either overwritten or appended to. If the file does not exist, this constructor creates a new file.
+
+StreamWriter(String, Boolean)	
+Initializes a new instance of the StreamWriter class for the specified file by using the default encoding and buffer size. If the file exists, it can be either overwritten or appended to. If the file does not exist, this constructor creates a new file.
+
+StreamWriter(String, Encoding, FileStreamOptions)	
+Initializes a new instance of the StreamWriter class for the specified file, using the specified encoding, and configured with the specified FileStreamOptions object.
+
+StreamWriter(String, FileStreamOptions)	
+Initializes a new instance of the StreamWriter class for the specified file, using the default encoding, and configured with the specified FileStreamOptions object.
+
+StreamWriter(String)	
+Initializes a new instance of the StreamWriter class for the specified file by using the default encoding and buffer size.
+
+Fields
+Name	Description
+CoreNewLine	
+Stores the newline characters used for this TextWriter.
+
+(Inherited from TextWriter)
+Null	
+Provides a StreamWriter with no backing store that can be written to, but not read from.
+
+Properties
+Name	Description
+AutoFlush	
+Gets or sets a value indicating whether the StreamWriter will flush its buffer to the underlying stream after every call to Write(Char).
+
+BaseStream	
+Gets the underlying stream that interfaces with a backing store.
+
+Encoding	
+Gets the Encoding in which the output is written.
+
+FormatProvider	
+Gets an object that controls formatting.
+
+(Inherited from TextWriter)
+NewLine	
+Gets or sets the line terminator string used by the current TextWriter.
+
+(Inherited from TextWriter)
+Methods
+Name	Description
+Close()	
+Closes the current StreamWriter object and the underlying stream.
+
+Dispose()	
+Releases all resources used by the TextWriter object.
+
+(Inherited from TextWriter)
+Dispose(Boolean)	
+Causes any buffered data to be written to the underlying stream, releases the unmanaged resources used by the StreamWriter, and optionally the managed resources.
+
+DisposeAsync()	
+Asynchronously writes any buffered data to the underlying stream and releases the unmanaged resources used by the StreamWriter.
+
+Equals(Object)	
+Determines whether the specified object is equal to the current object.
+
+(Inherited from Object)
+Flush()	
+Clears all buffers for the current writer and causes any buffered data to be written to the underlying stream.
+
+FlushAsync()	
+Clears all buffers for this stream asynchronously and causes any buffered data to be written to the underlying device.
+
+FlushAsync(CancellationToken)	
+Clears all buffers for this stream asynchronously and causes any buffered data to be written to the underlying device.
+
+GetHashCode()	
+Serves as the default hash function.
+
+(Inherited from Object)
+GetLifetimeService()	
+Obsolete.
+Retrieves the current lifetime service object that controls the lifetime policy for this instance.
+
+(Inherited from MarshalByRefObject)
+GetType()	
+Gets the Type of the current instance.
+
+(Inherited from Object)
+InitializeLifetimeService()	
+Obsolete.
+Obtains a lifetime service object to control the lifetime policy for this instance.
+
+(Inherited from MarshalByRefObject)
+MemberwiseClone()	
+Creates a shallow copy of the current Object.
+
+(Inherited from Object)
+MemberwiseClone(Boolean)	
+Creates a shallow copy of the current MarshalByRefObject object.
+
+(Inherited from MarshalByRefObject)
+ToString()	
+Returns a string that represents the current object.
+
+(Inherited from Object)
+Write(Boolean)	
+Writes the text representation of a Boolean value to the text stream.
+
+(Inherited from TextWriter)
+Write(Char)	
+Writes a character to the stream.
+
+Write(Char[], Int32, Int32)	
+Writes a subarray of characters to the stream.
+
+Write(Char[])	
+Writes a character array to the stream.
+
+Write(Decimal)	
+Writes the text representation of a decimal value to the text stream.
+
+(Inherited from TextWriter)
+Write(Double)	
+Writes the text representation of an 8-byte floating-point value to the text stream.
+
+(Inherited from TextWriter)
+Write(Int32)	
+Writes the text representation of a 4-byte signed integer to the text stream.
+
+(Inherited from TextWriter)
+Write(Int64)	
+Writes the text representation of an 8-byte signed integer to the text stream.
+
+(Inherited from TextWriter)
+Write(Object)	
+Writes the text representation of an object to the text stream by calling the ToString method on that object.
+
+(Inherited from TextWriter)
+Write(ReadOnlySpan<Char>)	
+Writes a character span to the stream.
+
+Write(Single)	
+Writes the text representation of a 4-byte floating-point value to the text stream.
+
+(Inherited from TextWriter)
+Write(String, Object, Object, Object)	
+Writes a formatted string to the stream, using the same semantics as the Format(String, Object, Object, Object) method.
+
+Write(String, Object, Object)	
+Writes a formatted string to the stream using the same semantics as the Format(String, Object, Object) method.
+
+Write(String, Object)	
+Writes a formatted string to the stream, using the same semantics as the Format(String, Object) method.
+
+Write(String, Object[])	
+Writes a formatted string to the stream, using the same semantics as the Format(String, Object[]) method.
+
+Write(String, ReadOnlySpan<Object>)	
+Writes a formatted string to the stream, using the same semantics as Format(String, ReadOnlySpan<Object>).
+
+Write(String)	
+Writes a string to the stream.
+
+Write(StringBuilder)	
+Writes a string builder to the text stream.
+
+(Inherited from TextWriter)
+Write(UInt32)	
+Writes the text representation of a 4-byte unsigned integer to the text stream.
+
+(Inherited from TextWriter)
+Write(UInt64)	
+Writes the text representation of an 8-byte unsigned integer to the text stream.
+
+(Inherited from TextWriter)
+WriteAsync(Char)	
+Asynchronously writes a character to the stream.
+
+WriteAsync(Char[], Int32, Int32)	
+Asynchronously writes a subarray of characters to the stream.
+
+WriteAsync(Char[])	
+Writes a character array to the text stream asynchronously.
+
+(Inherited from TextWriter)
+WriteAsync(ReadOnlyMemory<Char>, CancellationToken)	
+Asynchronously writes a character memory region to the stream.
+
+WriteAsync(String)	
+Asynchronously writes a string to the stream.
+
+WriteAsync(StringBuilder, CancellationToken)	
+Asynchronously writes a string builder to the text stream.
+
+(Inherited from TextWriter)
+WriteLine()	
+Writes a line terminator to the text stream.
+
+(Inherited from TextWriter)
+WriteLine(Boolean)	
+Writes the text representation of a Boolean value to the text stream, followed by a line terminator.
+
+(Inherited from TextWriter)
+WriteLine(Char)	
+Writes a character to the text stream, followed by a line terminator.
+
+(Inherited from TextWriter)
+WriteLine(Char[], Int32, Int32)	
+Writes a subarray of characters to the text stream, followed by a line terminator.
+
+(Inherited from TextWriter)
+WriteLine(Char[])	
+Writes an array of characters to the text stream, followed by a line terminator.
+
+(Inherited from TextWriter)
+WriteLine(Decimal)	
+Writes the text representation of a decimal value to the text stream, followed by a line terminator.
+
+(Inherited from TextWriter)
+WriteLine(Double)	
+Writes the text representation of a 8-byte floating-point value to the text stream, followed by a line terminator.
+
+(Inherited from TextWriter)
+WriteLine(Int32)	
+Writes the text representation of a 4-byte signed integer to the text stream, followed by a line terminator.
+
+(Inherited from TextWriter)
+WriteLine(Int64)	
+Writes the text representation of an 8-byte signed integer to the text stream, followed by a line terminator.
+
+(Inherited from TextWriter)
+WriteLine(Object)	
+Writes the text representation of an object to the text stream, by calling the ToString method on that object, followed by a line terminator.
+
+(Inherited from TextWriter)
+WriteLine(ReadOnlySpan<Char>)	
+Writes the text representation of a character span to the stream, followed by a line terminator.
+
+WriteLine(Single)	
+Writes the text representation of a 4-byte floating-point value to the text stream, followed by a line terminator.
+
+(Inherited from TextWriter)
+WriteLine(String, Object, Object, Object)	
+Writes out a formatted string and a new line to the stream, using the same semantics as Format(String, Object).
+
+WriteLine(String, Object, Object)	
+Writes a formatted string and a new line to the stream, using the same semantics as the Format(String, Object, Object) method.
+
+WriteLine(String, Object)	
+Writes a formatted string and a new line to the stream, using the same semantics as the Format(String, Object) method.
+
+WriteLine(String, Object[])	
+Writes out a formatted string and a new line to the stream, using the same semantics as Format(String, Object).
+
+WriteLine(String, ReadOnlySpan<Object>)	
+Writes out a formatted string and a new line to the stream, using the same semantics as Format(String, ReadOnlySpan<Object>).
+
+WriteLine(String)	
+Writes a string to the stream, followed by a line terminator.
+
+WriteLine(StringBuilder)	
+Writes the text representation of a string builder to the text stream, followed by a line terminator.
+
+(Inherited from TextWriter)
+WriteLine(UInt32)	
+Writes the text representation of a 4-byte unsigned integer to the text stream, followed by a line terminator.
+
+(Inherited from TextWriter)
+WriteLine(UInt64)	
+Writes the text representation of an 8-byte unsigned integer to the text stream, followed by a line terminator.
+
+(Inherited from TextWriter)
+WriteLineAsync()	
+Asynchronously writes a line terminator to the stream.
+
+WriteLineAsync(Char)	
+Asynchronously writes a character to the stream, followed by a line terminator.
+
+WriteLineAsync(Char[], Int32, Int32)	
+Asynchronously writes a subarray of characters to the stream, followed by a line terminator.
+
+WriteLineAsync(Char[])	
+Asynchronously writes an array of characters to the text stream, followed by a line terminator.
+
+(Inherited from TextWriter)
+WriteLineAsync(ReadOnlyMemory<Char>, CancellationToken)	
+Asynchronously writes the text representation of a character memory region to the stream, followed by a line terminator.
+
+WriteLineAsync(String)	
+Asynchronously writes a string to the stream, followed by a line terminator.
+
+WriteLineAsync(StringBuilder, CancellationToken)	
+Asynchronously writes the text representation of a string builder to the text stream, followed by a line terminator.
+
+(Inherited from TextWriter)
+Extension Methods
+Name	Description
+ConfigureAwait(IAsyncDisposable, Boolean)	
+Configures how awaits on the tasks returned from an async disposable will be performed.
+
+Applies to
+Product	Versions
+.NET	Core 1.0, Core 1.1, Core 2.0, Core 2.1, Core 2.2, Core 3.0, Core 3.1, 5, 6, 7, 8, 9, 10, 11
+.NET Framework	1.1, 2.0, 3.0, 3.5, 4.0, 4.5, 4.5.1, 4.5.2, 4.6, 4.6.1, 4.6.2, 4.7, 4.7.1, 4.7.2, 4.8, 4.8.1
+.NET Standard	1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 2.0, 2.1
+UWP	10.0
+See also
+Stream
+StreamReader
+Encoder
+Encoding
+File and Stream I/O
+How to: Read Text from a File
+How to: Write Text to a File
+How to: Read and Write to a Newly Created Data File
+ Collaborate with us on GitHub
+The source for this content can be found on GitHub, where you can also create and review issues and pull requests. For more information, see our contributor guide.
+
+.NET feedback
+
+.NET is an open source project. Select a link to provide feedback:
+
+ Open a documentation issue
+ Provide product feedback
+In this article
+Definition
+Examples
+Remarks
+Constructors
+Fields
+Properties
+Methods
+Extension Methods
+Applies to
+See also
+Was this page helpful?
+
+Manage cookies
+AI Disclaimer
+Previous Versions
+Blog
+Contribute
+Privacy
+Consumer Health Privacy
+Terms of Use
+Trademarks
+© Microsoft 2026
+Skip to main contentSkip to in-page navigationSkip to Ask Learn chat experience
+Microsoft Build 2026
+June 2-3, 2026
+
+Learn
+Sign in
+.NET
+Version
+Search
+Search
+System.IO
+DriveType
+ErrorEventHandler
+FileAccess
+FileAttributes
+FileMode
+FileOptions
+FileShare
+FileSystemEventHandler
+HandleInheritability
+MatchCasing
+MatchType
+NotifyFilters
+RenamedEventHandler
+SearchOption
+SeekOrigin
+StreamWriter
+Constructors
+UnixFileMode
+WatcherChangeTypes
+API browser
+StreamWriter Constructors
+Definition
+Namespace:
+System.IO
+Assemblies:
+netstandard.dll, System.Runtime.dll
+Initializes a new instance of the StreamWriter class.
+
+Overloads
+Name	Description
+StreamWriter(Stream)	
+Initializes a new instance of the StreamWriter class for the specified stream by using UTF-8 encoding and the default buffer size.
+
+StreamWriter(String)	
+Initializes a new instance of the StreamWriter class for the specified file by using the default encoding and buffer size.
+
+StreamWriter(Stream, Encoding)	
+Initializes a new instance of the StreamWriter class for the specified stream by using the specified encoding and the default buffer size.
+
+StreamWriter(String, Boolean)	
+Initializes a new instance of the StreamWriter class for the specified file by using the default encoding and buffer size. If the file exists, it can be either overwritten or appended to. If the file does not exist, this constructor creates a new file.
+
+StreamWriter(String, FileStreamOptions)	
+Initializes a new instance of the StreamWriter class for the specified file, using the default encoding, and configured with the specified FileStreamOptions object.
+
+StreamWriter(Stream, Encoding, Int32)	
+Initializes a new instance of the StreamWriter class for the specified stream by using the specified encoding and buffer size.
+
+StreamWriter(String, Boolean, Encoding)	
+Initializes a new instance of the StreamWriter class for the specified file by using the specified encoding and default buffer size. If the file exists, it can be either overwritten or appended to. If the file does not exist, this constructor creates a new file.
+
+StreamWriter(String, Encoding, FileStreamOptions)	
+Initializes a new instance of the StreamWriter class for the specified file, using the specified encoding, and configured with the specified FileStreamOptions object.
+
+StreamWriter(Stream, Encoding, Int32, Boolean)	
+Initializes a new instance of the StreamWriter class for the specified stream by using the specified encoding and buffer size, and optionally leaves the stream open.
+
+StreamWriter(String, Boolean, Encoding, Int32)	
+Initializes a new instance of the StreamWriter class for the specified file on the specified path, using the specified encoding and buffer size. If the file exists, it can be either overwritten or appended to. If the file does not exist, this constructor creates a new file.
+
+StreamWriter(Stream)
+Source:
+StreamWriter.cs
+Initializes a new instance of the StreamWriter class for the specified stream by using UTF-8 encoding and the default buffer size.
+
+C#
+public StreamWriter(System.IO.Stream stream);
+Parameters
+stream
+Stream
+The stream to write to.
+
+Exceptions
+ArgumentException
+stream is not writable.
+
+ArgumentNullException
+stream is null.
+
+Examples
+The following code example demonstrates this constructor.
+
+C#
+using System;
+using System.IO;
+
+namespace ConsoleApplication
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string fileName = "test.txt";
+            string textToAdd = "Example text in file";
+            FileStream fs = null;
+            try
+            {
+                fs = new FileStream(fileName, FileMode.CreateNew);
+                using (StreamWriter writer = new StreamWriter(fs))
+                {
+                    writer.Write(textToAdd);
+                }
+            }
+            finally
+            {
+                if (fs != null)
+                    fs.Dispose();
+            }
+        }
+    }
+}
+Remarks
+This constructor creates a StreamWriter with UTF-8 encoding without a Byte-Order Mark (BOM), so its GetPreamble method returns an empty byte array. The default UTF-8 encoding for this constructor throws an exception on invalid bytes. This behavior is different from the behavior provided by the encoding object in the Encoding.UTF8 property. To specify whether an exception is thrown on invalid bytes, use a constructor that accepts an encoding object as a parameter, such as StreamWriter. The BaseStream property is initialized using the stream parameter. The position of the stream is not reset.
+
+The StreamWriter object calls Dispose() on the provided Stream object when StreamWriter.Dispose is called.
+
+ Caution
+
+When you compile a set of characters with a particular cultural setting and retrieve those same characters with a different cultural setting, the characters might not be interpretable and could cause an exception to be thrown.
+
+For a list of common I/O tasks, see Common I/O Tasks.
+
+See also
+File and Stream I/O
+How to: Read Text from a File
+How to: Write Text to a File
+Applies to
+.NET 11 and other versions
+StreamWriter(String)
+Source:
+StreamWriter.cs
+Initializes a new instance of the StreamWriter class for the specified file by using the default encoding and buffer size.
+
+C#
+public StreamWriter(string path);
+Parameters
+path
+String
+The complete file path to write to. path can be a file name.
+
+Exceptions
+UnauthorizedAccessException
+Access is denied.
+
+ArgumentException
+path is an empty string ("").
+
+-or-
+
+path contains the name of a system device (com1, com2, and so on).
+
+ArgumentNullException
+path is null.
+
+DirectoryNotFoundException
+The specified path is invalid (for example, it is on an unmapped drive).
+
+PathTooLongException
+The specified path, file name, or both exceed the system-defined maximum length.
+
+IOException
+path includes an incorrect or invalid syntax for file name, directory name, or volume label syntax.
+
+SecurityException
+The caller does not have the required permission.
+
+Examples
+The following code example demonstrates this constructor.
+
+C#
+using System;
+using System.IO;
+using System.Text;
+
+namespace ConsoleApplication
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string fileName = "test.txt";
+            string textToAdd = "Example text in file";
+
+            using (StreamWriter writer = new StreamWriter(fileName))
+            {
+                writer.Write(textToAdd);
+            }
+        }
+    }
+}
+Remarks
+This constructor creates a StreamWriter with UTF-8 encoding without a Byte-Order Mark (BOM), so its GetPreamble method returns an empty byte array. The default UTF-8 encoding for this constructor throws an exception on invalid bytes. This behavior is different from the behavior provided by the encoding object in the Encoding.UTF8 property. To specify a BOM and determine whether an exception is thrown on invalid bytes, use a constructor that accepts an encoding object as a parameter, such as StreamWriter(String, Boolean, Encoding).
+
+The path parameter can be a file name, including a file on a Universal Naming Convention (UNC) share. If the file exists, it is overwritten; otherwise, a new file is created.
+
+The path parameter is not required to be a file stored on disk; it can be any part of a system that supports access using streams.
+
+ Caution
+
+When you compile a set of characters with a particular cultural setting and retrieve those same characters with a different cultural setting, the characters might not be interpretable and could cause an exception to be thrown.
+
+For a list of common I/O tasks, see Common I/O Tasks.
+
+See also
+File and Stream I/O
+How to: Read Text from a File
+How to: Write Text to a File
+Applies to
+.NET 11 and other versions
+StreamWriter(Stream, Encoding)
+Source:
+StreamWriter.cs
+Initializes a new instance of the StreamWriter class for the specified stream by using the specified encoding and the default buffer size.
+
+C#
+public StreamWriter(System.IO.Stream stream, System.Text.Encoding? encoding);
+Parameters
+stream
+Stream
+The stream to write to.
+
+encoding
+Encoding
+The character encoding to use.
+
+Exceptions
+ArgumentNullException
+stream or encoding is null.
+
+ArgumentException
+stream is not writable.
+
+Examples
+The following example demonstrates this constructor.
+
+C#
+using System;
+using System.IO;
+using System.Text;
+
+namespace ConsoleApplication
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string fileName = "test.txt";
+            string textToAdd = "Example text in file";
+            FileStream fs = null;
+            try
+            {
+               fs = new FileStream(fileName, FileMode.CreateNew);
+               using (StreamWriter writer = new StreamWriter(fs, Encoding.Default))
+                {
+                    writer.Write(textToAdd);
+                }
+            }
+            finally
+            {
+                if (fs != null)
+                    fs.Dispose();
+            }
+        }
+    }
+}
+Remarks
+This constructor initializes the Encoding property using the encoding parameter, and the BaseStream property using the stream parameter. The position of the stream is not reset. For additional information, see Encoding.
+
+The StreamWriter object calls Dispose() on the provided Stream object when StreamWriter.Dispose is called.
+
+ Caution
+
+When you compile a set of characters with a particular cultural setting and retrieve those same characters with a different cultural setting, the characters might not be interpretable, and could cause an exception to be thrown.
+
+For a list of common I/O tasks, see Common I/O Tasks.
+
+See also
+Encoding
+File and Stream I/O
+How to: Read Text from a File
+How to: Write Text to a File
+Applies to
+.NET 11 and other versions
+StreamWriter(String, Boolean)
+Source:
+StreamWriter.cs
+Initializes a new instance of the StreamWriter class for the specified file by using the default encoding and buffer size. If the file exists, it can be either overwritten or appended to. If the file does not exist, this constructor creates a new file.
+
+C#
+public StreamWriter(string path, bool append);
+Parameters
+path
+String
+The complete file path to write to.
+
+append
+Boolean
+true to append data to the file; false to overwrite the file. If the specified file does not exist, this parameter has no effect, and the constructor creates a new file.
+
+Exceptions
+UnauthorizedAccessException
+Access is denied.
+
+ArgumentException
+path is empty.
+
+-or-
+
+path contains the name of a system device (com1, com2, and so on).
+
+ArgumentNullException
+path is null.
+
+DirectoryNotFoundException
+The specified path is invalid (for example, it is on an unmapped drive).
+
+IOException
+path includes an incorrect or invalid syntax for file name, directory name, or volume label syntax.
+
+PathTooLongException
+The specified path, file name, or both exceed the system-defined maximum length.
+
+SecurityException
+The caller does not have the required permission.
+
+Examples
+The following code example demonstrates this constructor.
+
+C#
+using System;
+using System.IO;
+using System.Text;
+
+namespace ConsoleApplication
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string fileName = "test.txt";
+            string textToAdd = "Example text in file";
+
+            using (StreamWriter writer = new StreamWriter(fileName, true))
+            {
+                writer.Write(textToAdd);
+            }
+        }
+    }
+}
+Remarks
+This constructor creates a StreamWriter with UTF-8 encoding without a Byte-Order Mark (BOM), so its GetPreamble method returns an empty byte array. The default UTF-8 encoding for this constructor throws an exception on invalid bytes. This behavior is different from the behavior provided by the encoding object in the Encoding.UTF8 property. To specify a BOM and determine whether an exception is thrown on invalid bytes, use a constructor that accepts an encoding object as a parameter, such as StreamWriter(String, Boolean, Encoding).
+
+The path parameter can be a file name, including a file on a Universal Naming Convention (UNC) share.
+
+The path parameter is not required to be a file stored on disk; it can be any part of a system that supports access using streams.
+
+ Caution
+
+When you compile a set of characters with a particular cultural setting and retrieve those same characters with a different cultural setting, the characters might not be interpretable, and could cause an exception to be thrown.
+
+For a list of common I/O tasks, see Common I/O Tasks.
+
+See also
+File and Stream I/O
+How to: Read Text from a File
+How to: Write Text to a File
+Applies to
+.NET 11 and other versions
+StreamWriter(String, FileStreamOptions)
+Source:
+StreamWriter.cs
+Initializes a new instance of the StreamWriter class for the specified file, using the default encoding, and configured with the specified FileStreamOptions object.
+
+C#
+public StreamWriter(string path, System.IO.FileStreamOptions options);
+Parameters
+path
+String
+The complete file path to write to.
+
+options
+FileStreamOptions
+An object that specifies the configuration options for the underlying FileStream.
+
+Exceptions
+ArgumentNullException
+options is null .
+
+ArgumentException
+path is not writable.
+
+See also
+File and Stream I/O
+How to: Read Text from a File
+How to: Write Text to a File
+Applies to
+.NET 11 and other versions
+StreamWriter(Stream, Encoding, Int32)
+Source:
+StreamWriter.cs
+Initializes a new instance of the StreamWriter class for the specified stream by using the specified encoding and buffer size.
+
+C#
+public StreamWriter(System.IO.Stream stream, System.Text.Encoding? encoding, int bufferSize);
+Parameters
+stream
+Stream
+The stream to write to.
+
+encoding
+Encoding
+The character encoding to use.
+
+bufferSize
+Int32
+The buffer size, in characters.
+
+Exceptions
+ArgumentNullException
+stream or encoding is null.
+
+ArgumentOutOfRangeException
+bufferSize is less than or equal to zero, except for -1, which is allowed to indicate the default buffer size.
+
+ArgumentException
+stream is not writable.
+
+Examples
+The following example demonstrates this constructor.
+
+C#
+using System;
+using System.IO;
+using System.Text;
+
+namespace ConsoleApplication
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string fileName = "test.txt";
+            string textToAdd = "Example text in file";
+            FileStream fs = null;
+            try
+            {
+                fs = new FileStream(fileName, FileMode.CreateNew);
+                using (StreamWriter writer = new StreamWriter(fs, Encoding.UTF8, 512))
+                {
+                    writer.Write(textToAdd);
+                }
+            }
+            finally
+            {
+                if (fs != null)
+                    fs.Dispose();
+            }
+        }
+    }
+}
+Remarks
+This constructor initializes the Encoding property using the encoding parameter, and the BaseStream property using the stream parameter. The position of the stream is not reset. For additional information, see Encoding.
+
+The StreamWriter object calls Dispose() on the provided Stream object when StreamWriter.Dispose is called.
+
+ Caution
+
+When you compile a set of characters with a particular cultural setting and retrieve those same characters with a different cultural setting, the characters might not be interpretable, and could cause an exception to be thrown.
+
+For a list of common I/O tasks, see Common I/O Tasks.
+
+See also
+Encoding
+File and Stream I/O
+How to: Read Text from a File
+How to: Write Text to a File
+Applies to
+.NET 11 and other versions
+StreamWriter(String, Boolean, Encoding)
+Source:
+StreamWriter.cs
+Initializes a new instance of the StreamWriter class for the specified file by using the specified encoding and default buffer size. If the file exists, it can be either overwritten or appended to. If the file does not exist, this constructor creates a new file.
+
+C#
+public StreamWriter(string path, bool append, System.Text.Encoding? encoding);
+Parameters
+path
+String
+The complete file path to write to.
+
+append
+Boolean
+true to append data to the file; false to overwrite the file. If the specified file does not exist, this parameter has no effect, and the constructor creates a new file.
+
+encoding
+Encoding
+The character encoding to use.
+
+Exceptions
+UnauthorizedAccessException
+Access is denied.
+
+ArgumentException
+path is empty.
+
+-or-
+
+path contains the name of a system device (com1, com2, and so on).
+
+ArgumentNullException
+path is null.
+
+DirectoryNotFoundException
+The specified path is invalid (for example, it is on an unmapped drive).
+
+IOException
+path includes an incorrect or invalid syntax for file name, directory name, or volume label syntax.
+
+PathTooLongException
+The specified path, file name, or both exceed the system-defined maximum length.
+
+SecurityException
+The caller does not have the required permission.
+
+Examples
+The following example demonstrates this constructor.
+
+C#
+using System;
+using System.IO;
+using System.Text;
+
+namespace ConsoleApplication
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string fileName = "test.txt";
+            string textToAdd = "Example text in file";
+
+            using (StreamWriter writer = new StreamWriter(fileName, true, Encoding.UTF8))
+            {
+                writer.Write(textToAdd);
+            }
+        }
+    }
+}
+Remarks
+This constructor initializes the Encoding property using the encoding parameter. For additional information, see Encoding.
+
+path can be a file name, including a file on a Universal Naming Convention (UNC) share.
+
+path is not required to be a file stored on disk; it can be any part of a system that supports access via streams.
+
+ Caution
+
+When you compile a set of characters with a particular cultural setting and retrieve those same characters with a different cultural setting, the characters might not be interpretable, and could cause an exception to be thrown.
+
+For a list of common I/O tasks, see Common I/O Tasks.
+
+See also
+Encoding
+File and Stream I/O
+How to: Read Text from a File
+How to: Write Text to a File
+Applies to
+.NET 11 and other versions
+StreamWriter(String, Encoding, FileStreamOptions)
+Source:
+StreamWriter.cs
+Initializes a new instance of the StreamWriter class for the specified file, using the specified encoding, and configured with the specified FileStreamOptions object.
+
+C#
+public StreamWriter(string path, System.Text.Encoding? encoding, System.IO.FileStreamOptions options);
+Parameters
+path
+String
+The complete file path to write to.
+
+encoding
+Encoding
+The character encoding to use.
+
+options
+FileStreamOptions
+An object that specifies the configuration options for the underlying FileStream.
+
+Exceptions
+ArgumentNullException
+options is null .
+
+ArgumentException
+path is not writable.
+
+See also
+File and Stream I/O
+How to: Read Text from a File
+How to: Write Text to a File
+Applies to
+.NET 11 and other versions
+StreamWriter(Stream, Encoding, Int32, Boolean)
+Source:
+StreamWriter.cs
+Initializes a new instance of the StreamWriter class for the specified stream by using the specified encoding and buffer size, and optionally leaves the stream open.
+
+C#
+public StreamWriter(System.IO.Stream stream, System.Text.Encoding? encoding = default, int bufferSize = -1, bool leaveOpen = false);
+Parameters
+stream
+Stream
+The stream to write to.
+
+encoding
+Encoding
+The character encoding to use.
+
+bufferSize
+Int32
+The buffer size, in characters.
+
+leaveOpen
+Boolean
+true to leave the stream open after the StreamWriter object is disposed; otherwise, false.
+
+Exceptions
+ArgumentNullException
+stream or encoding is null.
+
+ArgumentOutOfRangeException
+bufferSize is less than or equal to zero, except for -1, which is allowed to indicate the default buffer size.
+
+ArgumentException
+stream is not writable.
+
+Examples
+The following example demonstrates this constructor.
+
+C#
+using System;
+using System.IO;
+using System.Text;
+
+namespace ConsoleApplication
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string fileName = "test.txt";
+            string textToAdd = "Example text in file";
+            FileStream fs = null;
+            try
+            {
+                fs = new FileStream(fileName, FileMode.CreateNew);
+                using (StreamWriter writer = new StreamWriter(fs, Encoding.UTF8, 512, false))
+                {
+                    writer.Write(textToAdd);
+                }
+            }
+            finally
+            {
+                if (fs != null)
+                    fs.Dispose();
+            }
+        }
+    }
+}
+Remarks
+Unless you set the leaveOpen parameter to true, the StreamWriter object calls Dispose() on the provided Stream object when StreamWriter.Dispose is called.
+
+This constructor initializes the Encoding property by using the encoding parameter, and initializes the BaseStream property by using the stream parameter. The position of the stream is not reset. For additional information, see the Encoding property.
+
+ Caution
+
+When you compile a set of characters with a particular cultural setting and retrieve those same characters with a different cultural setting, the characters might not be interpretable, and could cause an exception to be thrown.
+
+Applies to
+.NET 11 and other versions
+StreamWriter(String, Boolean, Encoding, Int32)
+Source:
+StreamWriter.cs
+Initializes a new instance of the StreamWriter class for the specified file on the specified path, using the specified encoding and buffer size. If the file exists, it can be either overwritten or appended to. If the file does not exist, this constructor creates a new file.
+
+C#
+public StreamWriter(string path, bool append, System.Text.Encoding? encoding, int bufferSize);
+Parameters
+path
+String
+The complete file path to write to.
+
+append
+Boolean
+true to append data to the file; false to overwrite the file. If the specified file does not exist, this parameter has no effect, and the constructor creates a new file.
+
+encoding
+Encoding
+The character encoding to use.
+
+bufferSize
+Int32
+The buffer size, in characters.
+
+Exceptions
+ArgumentException
+path is an empty string ("").
+
+-or-
+
+path contains the name of a system device (com1, com2, and so on).
+
+ArgumentNullException
+path or encoding is null.
+
+ArgumentOutOfRangeException
+bufferSize is less than or equal to zero, except for -1, which is allowed to indicate the default buffer size.
+
+IOException
+path includes an incorrect or invalid syntax for file name, directory name, or volume label syntax.
+
+SecurityException
+The caller does not have the required permission.
+
+UnauthorizedAccessException
+Access is denied.
+
+DirectoryNotFoundException
+The specified path is invalid (for example, it is on an unmapped drive).
+
+PathTooLongException
+The specified path, file name, or both exceed the system-defined maximum length.
+
+Examples
+The following example demonstrates this constructor.
+
+C#
+using System;
+using System.IO;
+using System.Text;
+
+namespace ConsoleApplication
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string fileName = "test.txt";
+            string textToAdd = "Example text in file";
+
+            using (StreamWriter writer = new StreamWriter(fileName, true, Encoding.UTF8, 512))
+            {
+                writer.Write(textToAdd);
+            }
+        }
+    }
+}
+Remarks
+This constructor initializes the Encoding property using the encoding parameter. For additional information, see Encoding.
+
+path can be a file name, including a file on a Universal Naming Convention (UNC) share.
+
+path is not required to be a file stored on disk; it can be any part of a system that supports access via streams.
+
+ Caution
+
+When you compile a set of characters with a particular cultural setting and retrieve those same characters with a different cultural setting, the characters might not be interpretable, and could cause an exception to be thrown.
+
+For a list of common I/O tasks, see Common I/O Tasks.
+
+See also
+Encoding
+File and Stream I/O
+How to: Read Text from a File
+How to: Write Text to a File
+Applies to
+.NET 11 and other versions
+ Collaborate with us on GitHub
+The source for this content can be found on GitHub, where you can also create and review issues and pull requests. For more information, see our contributor guide.
+
+.NET feedback
+
+.NET is an open source project. Select a link to provide feedback:
+
+ Open a documentation issue
+ Provide product feedback
+In this article
+Definition
+Overloads
+StreamWriter(Stream)
+StreamWriter(String)
+StreamWriter(Stream, Encoding)
+StreamWriter(String, Boolean)
+StreamWriter(String, FileStreamOptions)
+StreamWriter(Stream, Encoding, Int32)
+StreamWriter(String, Boolean, Encoding)
+Show 3 more
+Was this page helpful?
+
+Manage cookies
+AI Disclaimer
+Previous Versions
+Blog
+Contribute
+Privacy
+Consumer Health Privacy
+Terms of Use
+Trademarks
+© Microsoft 2026
+Skip to main contentSkip to in-page navigationSkip to Ask Learn chat experience
+Microsoft Build 2026
+June 2-3, 2026
+
+Learn
+Sign in
+.NET
+Version
+Search
+Search
+System.IO
+DriveType
+ErrorEventHandler
+FileAccess
+FileAttributes
+FileMode
+FileOptions
+FileShare
+FileSystemEventHandler
+HandleInheritability
+MatchCasing
+MatchType
+NotifyFilters
+RenamedEventHandler
+SearchOption
+SeekOrigin
+StreamWriter
+Constructors
+Null
+UnixFileMode
+WatcherChangeTypes
+API browser
+StreamWriter.Null Field
+Definition
+Namespace:
+System.IO
+Assemblies:
+netstandard.dll, System.Runtime.dll
+Source:
+StreamWriter.cs
+Provides a StreamWriter with no backing store that can be written to, but not read from.
+
+C#
+public static readonly System.IO.StreamWriter Null;
+Field Value
+StreamWriter
+Examples
+The following example demonstrates a use of the Null field.
+
+C#
+if(sw.Equals(StreamWriter.Null))
+{
+    sw.WriteLine("The store can be written to, but not read from.");
+}
+Remarks
+Use Null to redirect output to a StreamWriter that will not consume any operating system resources.
+
+When the StreamWriter.Write methods are invoked on Null, the call simply returns, and no data is actually written to any backing store.
+
+For a list of common I/O tasks, see Common I/O Tasks.
+
+Applies to
+Product	Versions
+.NET	Core 1.0, Core 1.1, Core 2.0, Core 2.1, Core 2.2, Core 3.0, Core 3.1, 5, 6, 7, 8, 9, 10, 11
+.NET Framework	1.1, 2.0, 3.0, 3.5, 4.0, 4.5, 4.5.1, 4.5.2, 4.6, 4.6.1, 4.6.2, 4.7, 4.7.1, 4.7.2, 4.8, 4.8.1
+.NET Standard	1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 2.0, 2.1
+UWP	10.0
+See also
+File and Stream I/O
+How to: Read Text from a File
+How to: Write Text to a File
+ Collaborate with us on GitHub
+The source for this content can be found on GitHub, where you can also create and review issues and pull requests. For more information, see our contributor guide.
+
+.NET feedback
+
+.NET is an open source project. Select a link to provide feedback:
+
+ Open a documentation issue
+ Provide product feedback
+In this article
+Definition
+Examples
+Remarks
+Applies to
+See also
+Was this page helpful?
+
+Manage cookies
+AI Disclaimer
+Previous Versions
+Blog
+Contribute
+Privacy
+Consumer Health Privacy
+Terms of Use
+Trademarks
+© Microsoft 2026
+Skip to main contentSkip to in-page navigationSkip to Ask Learn chat experience
+Microsoft Build 2026
+June 2-3, 2026
+
+Learn
+Sign in
+.NET
+Version
+Search
+Search
+System.IO
+DriveType
+ErrorEventHandler
+FileAccess
+FileAttributes
+FileMode
+FileOptions
+FileShare
+FileSystemEventHandler
+HandleInheritability
+MatchCasing
+MatchType
+NotifyFilters
+RenamedEventHandler
+SearchOption
+SeekOrigin
+StreamWriter
+Constructors
+AutoFlush
+BaseStream
+Encoding
+UnixFileMode
+WatcherChangeTypes
+API browser
+StreamWriter.AutoFlush Property
+Definition
+Namespace:
+System.IO
+Assemblies:
+netstandard.dll, System.Runtime.dll
+Source:
+StreamWriter.cs
+Gets or sets a value indicating whether the StreamWriter will flush its buffer to the underlying stream after every call to Write(Char).
+
+C#
+public virtual bool AutoFlush { get; set; }
+Property Value
+Boolean
+true to force StreamWriter to flush its buffer; otherwise, false.
+
+Examples
+The following example shows the syntax for using the AutoFlush property.
+
+C#
+// Gets or sets a value indicating whether the StreamWriter
+// will flush its buffer to the underlying stream after every
+// call to StreamWriter.Write.
+sw.AutoFlush = true;
+Remarks
+Flushing the stream will not flush its underlying encoder unless you explicitly call Flush or Close. Setting AutoFlush to true means that data will be flushed from the buffer to the stream after each write operation, but the encoder state will not be flushed. This allows the encoder to keep its state (partial characters) so that it can encode the next block of characters correctly. This scenario affects UTF8 and UTF7 where certain characters can only be encoded after the encoder receives the adjacent character or characters.
+
+When AutoFlush is set to false, StreamWriter will do a limited amount of buffering, both internally and potentially in the encoder from the encoding you passed in. You can get better performance by setting AutoFlush to false, assuming that you always call Close (or at least Flush) when you're done writing with a StreamWriter.
+
+For example, set AutoFlush to true when you are writing to a device where the user expects immediate feedback. Console.Out is one of these cases: The StreamWriter used internally for writing to Console flushes all its internal state except the encoder state after every call to StreamWriter.Write.
+
+For a list of common I/O tasks, see Common I/O Tasks.
+
+Applies to
+Product	Versions
+.NET	Core 1.0, Core 1.1, Core 2.0, Core 2.1, Core 2.2, Core 3.0, Core 3.1, 5, 6, 7, 8, 9, 10, 11
+.NET Framework	1.1, 2.0, 3.0, 3.5, 4.0, 4.5, 4.5.1, 4.5.2, 4.6, 4.6.1, 4.6.2, 4.7, 4.7.1, 4.7.2, 4.8, 4.8.1
+.NET Standard	1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 2.0, 2.1
+UWP	10.0
+See also
+File and Stream I/O
+How to: Read Text from a File
+How to: Write Text to a File
+ Collaborate with us on GitHub
+The source for this content can be found on GitHub, where you can also create and review issues and pull requests. For more information, see our contributor guide.
+
+.NET feedback
+
+.NET is an open source project. Select a link to provide feedback:
+
+ Open a documentation issue
+ Provide product feedback
+In this article
+Definition
+Examples
+Remarks
+Applies to
+See also
+Was this page helpful?
+
+Manage cookies
+AI Disclaimer
+Previous Versions
+Blog
+Contribute
+Privacy
+Consumer Health Privacy
+Terms of Use
+Trademarks
+© Microsoft 2026
