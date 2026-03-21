@@ -70,6 +70,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Streams.Advanced.VaultLab",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogisticsAsync.Parallel.Practice", "LogisticsAsync.Parallel.Practice\LogisticsAsync.Parallel.Practice.csproj", "{8AE079FD-43E9-44E2-B46C-F2E60EF082D6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Threads.Practice.Lab", "Threads.Practice.Lab\Threads.Practice.Lab.csproj", "{2A5B3F6B-CD0B-4EEF-9EA7-2D9A86309BCF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -200,6 +202,10 @@ Global
 		{8AE079FD-43E9-44E2-B46C-F2E60EF082D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8AE079FD-43E9-44E2-B46C-F2E60EF082D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8AE079FD-43E9-44E2-B46C-F2E60EF082D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A5B3F6B-CD0B-4EEF-9EA7-2D9A86309BCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A5B3F6B-CD0B-4EEF-9EA7-2D9A86309BCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A5B3F6B-CD0B-4EEF-9EA7-2D9A86309BCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A5B3F6B-CD0B-4EEF-9EA7-2D9A86309BCF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
